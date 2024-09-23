@@ -6,6 +6,9 @@
 //
 
 import Foundation
+enum UserServiceError: Error {
+    case invalidURL, invalidData, invalidUser
+}
 
 protocol UserServiceProtocol {
     func fetchUsers(completion: @escaping (Result<[User], Error>) -> Void)
@@ -13,9 +16,8 @@ protocol UserServiceProtocol {
 
 class RealUserService: UserServiceProtocol {
     func fetchUsers(completion: @escaping (Result<[User], Error>) -> Void) {
-        // Example URL, you can replace this with any API endpoint
         guard let url = URL(string: "https://api.github.com/users") else {
-            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            completion(.failure(UserServiceError.invalidURL))
             return
         }
 
@@ -29,8 +31,7 @@ class RealUserService: UserServiceProtocol {
 
             guard let data = data else {
                 // If no data is received, return an error
-                let error = NSError(domain: "No Data", code: -1, userInfo: nil)
-                completion(.failure(error))
+                completion(.failure(UserServiceError.invalidData))
                 return
             }
 
