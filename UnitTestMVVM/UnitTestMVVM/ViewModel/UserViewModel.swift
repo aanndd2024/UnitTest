@@ -19,21 +19,6 @@ class UserViewModel: ObservableObject {
         self.service = service
     }
     
-//    func loadUsers() {
-//        isLoading = true  // Start loading
-//        service.fetchUsers { [weak self] result in
-//            DispatchQueue.main.async {
-//                self?.isLoading = false  // Stop loading
-//                switch result {
-//                case .success(let fetchedUsers):
-//                    self?.users = fetchedUsers
-//                case .failure(let error):
-//                    self?.errorMessage = error.localizedDescription
-//                }
-//            }
-//        }
-//    }
-    
     func loadUsers(completion: @escaping () -> Void = {}) {
         isLoading = true
         service.fetchUsers { [weak self] result in
